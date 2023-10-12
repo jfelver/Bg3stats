@@ -1,7 +1,7 @@
 // Load the JSON file
 let bg3items = {};
 
-fetch("https://jfelver.github.io/bg3stats")
+fetch("./stats.json")
   .then((response) => response.json())
   .then((data) => {
     bg3items = data;
