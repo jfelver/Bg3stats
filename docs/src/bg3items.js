@@ -14,6 +14,11 @@ fetch("https://jfelver.github.io/Bg3stats/src/stats.json")
       }
     }
     availableFields.sort();
+    for(item in availableFields){
+      let option = document.createElement("option");
+      option.value = availableFields[item];
+      document.getElementById("availableFields").appendChild(option);
+    }
   })
   .catch((error) => {
     console.error("Error fetching JSON file:", error);
