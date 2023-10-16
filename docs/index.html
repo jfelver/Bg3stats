@@ -19,10 +19,11 @@
         <div class="col-sm-4">
           <select class="form-select mb-3" id="newQueryField">
             <option value="" selected>Select a Field</option>
+            <option value="any">any</option>
           </select>
         </div>
         <div class="col">
-          <input type="text" class="form-control"  placeholder="eg: DoesDamage" id="newQueryString">
+          <input type="text" class="form-control"  placeholder="eg: DealDamage" id="newQueryString">
         </div>
         <div class="col">
           <button class="btn btn-outline-success col-sm-2" onclick="plusButtonClicked()">+</button>
@@ -38,7 +39,7 @@
     <br>
     <div class="row">
       <div class="mb-3">
-        <label for="resultsArea" class="form-label">Results</label>
+        <label for="resultsArea" class="form-label">Results: </label>
         <textarea class="form-control" id="resultsArea" rows="30" aria-label="resultsArea"></textarea>
       </div>
     </div>

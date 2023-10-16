@@ -47,17 +47,22 @@ fetch("https://jfelver.github.io/Bg3stats/src/stats.json")
     for(node of queryNodes){
       processQueryNode(node);
     }
-    document.getElementById('resultsArea').innerHTML = JSON.stringify(queryResults,allFields, 4);
+    document.getElementById('resultsArea').innerHTML = JSON.stringify(queryResults,null, 4);
   }
 
   function processPartialQuery(){
     processCumulativeQuery();
     processQueryNode(new QueryNode(getNewQueryField().value, getNewQueryString().value));
-    document.getElementById('resultsArea').innerHTML = JSON.stringify(queryResults,allFields, 4);
+    document.getElementById('resultsArea').innerHTML = JSON.stringify(queryResults,null, 4);
   }
 
   function processQueryNode(node){
-    queryResults = queryResults.filter(item => item[node.field].includes(node.queryString));
+    if(node.field == "any"){
+      queryResults = queryResults.filter(item => Object.values(item).some(val => val.includes(node.queryString)));
+      return;
+    }
+    queryResults = queryResults.filter(item => Object.keys(item).includes(node.field) && item[node.field].includes(node.queryString));
+    
   }
   
   function saveNode(node){
