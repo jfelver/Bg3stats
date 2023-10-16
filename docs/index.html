@@ -12,52 +12,41 @@
 
 <body>
   <div class="container-sm">
-    <div class="row">
-      <div class="col-sm-4">
-        <label for="availableFields" class="form-label">Available Fields</label>
+    <div id="queries">
+      <div class="savedQueryRows">
+        <!-- <div class="row">
+          <div class="col-sm-4">
+            <select class="form-select mb-3 field">
+              <option value="" selected>Select a Field</option>
+            </select>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control queryString"  placeholder="eg: DoesDamage">
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-success col-sm-2" onclick="addQueryNode(event)">+</button>
+            <button id="addFilterButton1" class="btn btn-outline-danger col-sm-2">-</button>
+          </div>
+        </div> -->
       </div>
-      <div class="col">
-        <div class="row">
-          <label for="filter" class="form-label">Filter Query</label>
-        </div>
-      </div>
-      <div class="col">
-        <label for="addFilterButton1" class="form-label">Add/Remove Filters</label>
-      </div>
-    </div>
-    <div>
-      <div class="row" id="queryRow1">
+      <div class="row newQueryRow">
         <div class="col-sm-4">
-          <select id="field1" class="form-select mb-3 field">
-            <option value="none" selected>Select a Field</option>
-            <option value="allFields">All Fields</option>
+          <select class="form-select mb-3" id="newQueryField">
+            <option value="" selected>Select a Field</option>
           </select>
         </div>
         <div class="col">
-          <input id="queryString1" type="text" class="form-control"  placeholder="eg: DoesDamage">
+          <input type="text" class="form-control"  placeholder="eg: DoesDamage" id="newQueryString">
         </div>
         <div class="col">
-          <button id="addFilterButton1" class="btn btn-outline-success col-sm-2" onclick="addQueryNode(event)">+</button>
-          <!-- <button id="addFilterButton1" class="btn btn-outline-primary col-sm-2">-</button> -->
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-4">
-        <div id="availableFieldsBlock" class="form-text">
-          Note: If no field is chosen, all options will be displayed
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-text">
-          Other Examples: type=Armor, Slot=neck
+          <button class="btn btn-outline-success col-sm-2" onclick="">+</button>
         </div>
       </div>
     </div>
     <br>
     <div class="row">
       <div class="col-sm-2">
-        <button class="btn btn-outline-primary" onclick="processQuery()">Apply All Filters</button>
+        <button class="btn btn-outline-primary" onclick="processPartialQuery()">Query</button>
       </div>
     </div>
     <br>
@@ -67,7 +56,6 @@
         <textarea class="form-control" id="resultsArea" rows="30" aria-label="resultsArea"></textarea>
       </div>
     </div>
-
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"

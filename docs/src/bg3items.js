@@ -1,10 +1,15 @@
 // Load the JSON file
 let bg3items = {};
+let allFields = [];
 let availableFields = [];
 let queryNodes = [];
-let cumulativeQuery = [];
+let queryResults = [];
 
 class QueryNode {
+
+  field = "";
+  queryString = "";
+
   constructor(field, queryString) {
     this.field = field;
     this.queryString = queryString;
@@ -17,37 +22,59 @@ fetch("https://jfelver.github.io/Bg3stats/src/stats.json")
     bg3items = data;
     for(item in bg3items) {
       for(field in bg3items[item]) {
-        if(!availableFields.includes(field)) {
-          availableFields.push(field);
+        if(!allFields.includes(field)) {
+          allFields.push(field);
         }
       }
     }
-    let field1 = document.getElementById('field1');
+
+    availableFields = allFields;
+
+    let field0 = getNewQueryField();
     for(item in availableFields){
       let option = document.createElement("option");
       option.value = availableFields[item];
       option.innerHTML = availableFields[item];
-      field1.appendChild(option);
+      field0.appendChild(option);
     }
-    queryResults = bg3items;
   })
   .catch((error) => {
     console.error("Error fetching JSON file:", error);
   });
 
   function processCumulativeQuery(){
-    // document.getElementById('resultsArea').innerHTML = JSON.stringify(queryResults,availableFields, 4);
-    console.log(cumulativeQuery);
-    
+    queryResults = bg3items;
+    for(node of queryNodes){
+      processQueryNode(node);
+    }
+    document.getElementById('resultsArea').innerHTML = JSON.stringify(queryResults,allFields, 4);
+  }
+
+  function processPartialQuery(){
+    processCumulativeQuery();
+    processQueryNode(new QueryNode(getNewQueryField().value, getNewQueryString().value));
+    document.getElementById('resultsArea').innerHTML = JSON.stringify(queryResults,allFields, 4);
+  }
+
+  function processQueryNode(node){
+    queryResults = queryResults.filter(item => item[node.field].includes(node.queryString));
   }
   
-  function addQueryNode(event){
-    let queryRow = event.target.id.slice(-1);
-    let field = document.getElementById('field'+queryRow).value;
-    let queryString = document.getElementById('queryString'+queryRow).value;
-    cumulativeQuery.push(new QueryNode(field, queryString));
-    processCumulativeQuery();
+  function saveNode(){
+    queryNodes.push(new QueryNode(getNewQueryField().value, getNewQueryString().value));
+  }
+  
+  function removeQueryNode(){
 
+    // figure out the field of the node to be removed
+    // remove the node from the queryNodes array
+    // remove the row element from the DOM
+
+  }
+
+  function createSavedQueryDOMRow(){
+
+    //TODO: update the query row html
     // <div>
     //   <div class="row" id="queryRow1">
     //     <div class="col-sm-4">
@@ -66,12 +93,16 @@ fetch("https://jfelver.github.io/Bg3stats/src/stats.json")
     //   </div>
     // </div>
 
-
-  }
-  
-  function removeQueryNode(event){
-    cumulativeQuery.pop();
-    processCumulativeQuery();
   }
 
+  function removeSavedQueryDOMRow(){
+
+  }
+
+  function getNewQueryField(){
+    return document.getElementById('newQueryField');
+  }
+  function getNewQueryString(){
+    return document.getElementById('newQueryString');
+  }
 
