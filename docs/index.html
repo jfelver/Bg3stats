@@ -13,21 +13,7 @@
 <body>
   <div class="container-sm">
     <div id="queries">
-      <div class="savedQueryRows">
-        <!-- <div class="row">
-          <div class="col-sm-4">
-            <select class="form-select mb-3 field">
-              <option value="" selected>Select a Field</option>
-            </select>
-          </div>
-          <div class="col">
-            <input type="text" class="form-control queryString"  placeholder="eg: DoesDamage">
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-success col-sm-2" onclick="addQueryNode(event)">+</button>
-            <button id="addFilterButton1" class="btn btn-outline-danger col-sm-2">-</button>
-          </div>
-        </div> -->
+      <div class="savedQueryRows" id="savedQueryRows">
       </div>
       <div class="row newQueryRow">
         <div class="col-sm-4">
@@ -39,7 +25,7 @@
           <input type="text" class="form-control"  placeholder="eg: DoesDamage" id="newQueryString">
         </div>
         <div class="col">
-          <button class="btn btn-outline-success col-sm-2" onclick="">+</button>
+          <button class="btn btn-outline-success col-sm-2" onclick="plusButtonClicked()">+</button>
         </div>
       </div>
     </div>

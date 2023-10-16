@@ -60,8 +60,8 @@ fetch("https://jfelver.github.io/Bg3stats/src/stats.json")
     queryResults = queryResults.filter(item => item[node.field].includes(node.queryString));
   }
   
-  function saveNode(){
-    queryNodes.push(new QueryNode(getNewQueryField().value, getNewQueryString().value));
+  function saveNode(node){
+    queryNodes.push(node);
   }
   
   function removeQueryNode(){
@@ -72,31 +72,50 @@ fetch("https://jfelver.github.io/Bg3stats/src/stats.json")
 
   }
 
-  function createSavedQueryDOMRow(){
-
-    //TODO: update the query row html
-    // <div>
-    //   <div class="row" id="queryRow1">
-    //     <div class="col-sm-4">
-    //       <select id="field1" class="form-select mb-3 field">
-    //         <option value="none" selected>Select a Field</option>
-    //         <option value="allFields">All Fields</option>
-    //       </select>
-    //     </div>
-    //     <div class="col">
-    //       <input id="queryString1" type="text" class="form-control"  placeholder="eg: DoesDamage">
-    //     </div>
-    //     <div class="col">
-    //       <button id="addFilterButton1" class="btn btn-outline-success col-sm-2" onclick="addQueryNode(event)">+</button>
-    //       <!-- <button id="addFilterButton1" class="btn btn-outline-primary col-sm-2">-</button> -->
-    //     </div>
-    //   </div>
-    // </div>
-
+  function createSavedQueryDOMRow(field, queryString){
+    const row = document.createElement("div");
+    row.setAttribute("class", "row");
+    const col1 = document.createElement("div");
+    col1.setAttribute("class", "col-sm-4");
+    const select = document.createElement("select");
+    select.setAttribute("class", "form-select mb-3 field disabled");
+    const option = document.createElement("option");
+    option.setAttribute("value", field);
+    option.setAttribute("selected", "selected");
+    option.innerHTML = field;
+    select.appendChild(option);
+    col1.appendChild(select);
+    row.appendChild(col1);
+    const col2 = document.createElement("div");
+    col2.setAttribute("class", "col");
+    const textInput = document.createElement("input");
+    textInput.setAttribute("type", "text");
+    textInput.setAttribute("class", "form-control queryString disabled");
+    textInput.setAttribute("value", queryString);
+    col2.appendChild(textInput);
+    row.appendChild(col2);
+    const col3 = document.createElement("div");
+    col3.setAttribute("class", "col");
+    const button = document.createElement("button");
+    button.setAttribute("id", "");
+    button.setAttribute("class", "btn btn-outline-danger col-sm-2");
+    button.innerHTML = "-";
+    col3.appendChild(button);
+    row.appendChild(col3);
+    const savedQueryRows = document.getElementById("savedQueryRows")
+    savedQueryRows.appendChild(row);
   }
 
-  function removeSavedQueryDOMRow(){
+  function clearTempQueryDOMRow(){
+    getNewQueryField().value = "";
+    getNewQueryString().value = "";
+  };
 
+  function removeSavedQueryDOMRow(){
+    // find event target's field
+    // figure out which index it is in the queryNodes array
+    // remove it from the queryNodes array
+    // remove the row element from the DOM
   }
 
   function getNewQueryField(){
@@ -104,5 +123,16 @@ fetch("https://jfelver.github.io/Bg3stats/src/stats.json")
   }
   function getNewQueryString(){
     return document.getElementById('newQueryString');
+  }
+
+  function plusButtonClicked(){
+    let newNode = new QueryNode(getNewQueryField().value, getNewQueryString().value);
+    saveNode(newNode);
+    processCumulativeQuery();
+    for(node of queryNodes){
+      availableFields.splice(availableFields.indexOf(node.field),1);
+    }
+    createSavedQueryDOMRow(newNode.field, newNode.queryString);
+    clearTempQueryDOMRow();
   }
 
